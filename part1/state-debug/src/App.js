@@ -10,10 +10,10 @@ const App = () => {
     setLeft(left+1);
   }
   
-  const handleRightClick = () => 
+  const handleRightClick = () => {
     setAll(allClicks.concat('R'));
     setRight(right+1);
-  
+  }
   return (
     <div>
       {left}
