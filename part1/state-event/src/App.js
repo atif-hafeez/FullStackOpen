@@ -1,9 +1,9 @@
 import { useState } from "react"
 
-const Display = (props) => {
+const Display = ({counter}) => { //Although counter is passed as part of the props
   return (
     <div>
-      {props.counter}
+      {counter}
     </div>
   )
 }
