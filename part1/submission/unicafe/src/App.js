@@ -1,13 +1,18 @@
 import { useState } from 'react'
 
-const App = () => {
-  
-  /* const weight = {
-    good: 1,
-    neutral: 0, 
-    bad: -1
-  } */
+const Statistics = ({allStats, average, positive}) => {
+  return (
+    <>
+        all {allStats}
+        <br />
+        average {average}
+        <br />
+        positive {positive*100} %
+    </>
+  )
+}
 
+const App = () => {
   // save clicks of each button to its own state
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
@@ -49,31 +54,42 @@ const App = () => {
 
     setPositive(good/newAllStats)
   }
+  if (allStats === 0) {
+    return (
+      <div>
+        <h1>give feedback</h1>
+        
+        <button onClick={handleGoodClick}>good</button>
+        <button onClick={handleNeutralClick}>neutral</button>
+        <button onClick={handleBadClick}>bad</button>
+        
+        <h1>statistics</h1>
 
-  return (
-    <div>
-      <h1>give feedback</h1>
-      
-      <button onClick={handleGoodClick}>good</button>
-      <button onClick={handleNeutralClick}>neutral</button>
-      <button onClick={handleBadClick}>bad</button>
-      
-      <h1>statistics</h1>
-      <p>
-        good {good} 
-        <br />
-        neutral {neutral}
-        <br />
-        bad {bad}
-        <br />
-        all {allStats}
-        <br />
-        average {average}
-        <br />
-        positive {positive*100} %
-      </p>
-    </div>
-  )
+        <p>No feedback given</p>
+      </div>
+    )
+  } else {
+      return (
+        <div>
+          <h1>give feedback</h1>
+          
+          <button onClick={handleGoodClick}>good</button>
+          <button onClick={handleNeutralClick}>neutral</button>
+          <button onClick={handleBadClick}>bad</button>
+          
+          <h1>statistics</h1>
+          <p>
+            good {good} 
+            <br />
+            neutral {neutral}
+            <br />
+            bad {bad}
+            <br />
+            <Statistics allStats={allStats} average={average} positive={positive} />
+          </p>
+        </div>
+      )
+  }
 }
 
 export default App
