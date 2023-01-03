@@ -3,26 +3,40 @@ import { useState } from 'react'
 const StatisticsLine = ({text, value}) => {
   
   return (
-    <>
-      <span>{text} {text === "positive" ? value + " %" : value}</span>
-      <br />
-    </>
+    <tr>
+      <td>{text}</td> 
+      <td>
+      {
+        text === "average" 
+          ? Number(value).toPrecision(1) 
+            : text === "positive" 
+              ? Number(value).toPrecision(1) + " %" 
+              : value 
+      }
+      </td>
+    </tr>
   )
   
 }
 
-
-
 const Statistics = ({good, neutral, bad, allStats, average, positive}) => {
   return (
-    <div>
-        <StatisticsLine text="good" value={good} /> 
-        <StatisticsLine text="neutral" value={neutral} />
-        <StatisticsLine text="bad" value={bad} />  
-        <StatisticsLine text="all" value={allStats} />
-        <StatisticsLine text="average" value={average} />
-        <StatisticsLine text="positive" value={positive} />   
-    </div>
+    <table>
+        <thead>
+          <tr>
+            <td></td>
+            <td></td>
+          </tr>
+        </thead>
+        <tbody>
+          <StatisticsLine text="good" value={good} /> 
+          <StatisticsLine text="neutral" value={neutral} />
+          <StatisticsLine text="bad" value={bad} />  
+          <StatisticsLine text="all" value={allStats} />
+          <StatisticsLine text="average" value={average} />
+          <StatisticsLine text="positive" value={positive*100} />   
+        </tbody>
+    </table>
   )
 }
 
