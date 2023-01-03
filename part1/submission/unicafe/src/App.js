@@ -1,8 +1,14 @@
 import { useState } from 'react'
 
-const Statistics = ({allStats, average, positive}) => {
+const Statistics = ({good, neutral, bad, allStats, average, positive}) => {
   return (
     <>
+        good {good} 
+        <br />
+        neutral {neutral}
+        <br />
+        bad {bad}
+        <br />
         all {allStats}
         <br />
         average {average}
@@ -79,13 +85,9 @@ const App = () => {
           
           <h1>statistics</h1>
           <p>
-            good {good} 
-            <br />
-            neutral {neutral}
-            <br />
-            bad {bad}
-            <br />
-            <Statistics allStats={allStats} average={average} positive={positive} />
+            <Statistics 
+              good={good} neutral={neutral} bad={bad}
+              allStats={allStats} average={average} positive={positive} />
           </p>
         </div>
       )
