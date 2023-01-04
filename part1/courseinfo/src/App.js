@@ -35,13 +35,7 @@ const Total = ({parts}) => {
     <>
       <p><strong>total of {
         parts.reduce (
-          (sum, currentValue) => 
-          {
-            console.log(sum, currentValue.exercises)
-            return (sum + currentValue.exercises)
-          }
-        , 0)
-        
+          (sum, currentValue) => sum + currentValue.exercises, 0)
       } exercises</strong></p>
     </>
   )
