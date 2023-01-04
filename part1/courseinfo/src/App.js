@@ -33,7 +33,16 @@ const Course = ({course}) => {
 const Total = ({parts}) => {
   return (
     <>
-      <p><strong>total of {parts.reduce((sum, currentValue) => sum + currentValue.exercises, 0)} exercises</strong></p>
+      <p><strong>total of {
+        parts.reduce (
+          (sum, currentValue) => 
+          {
+            console.log(sum, currentValue.exercises)
+            return (sum + currentValue.exercises)
+          }
+        , 0)
+        
+      } exercises</strong></p>
     </>
   )
 };
