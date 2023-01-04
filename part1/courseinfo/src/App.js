@@ -30,10 +30,10 @@ const Course = ({course}) => {
   )
 }
 
-const Total = (props) => {
+const Total = ({parts}) => {
   return (
     <>
-      <p>Number of exercises {props.exercises1 + props.exercises2 + props.exercises3}</p>
+      <p>Number of exercises {parts.reduce((accumulator, currentValue) => accumulator + currentValue}, 0)}</p>
     </>
   )
 };
