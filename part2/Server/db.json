@@ -21,19 +21,19 @@
     {
       "content": "Added a note",
       "date": "2023-01-04T17:21:15.806Z",
-      "important": true,
+      "important": false,
       "id": 4
     },
     {
       "content": "Added another note",
       "date": "2023-01-04T17:25:06.360Z",
-      "important": false,
+      "important": true,
       "id": 5
     },
     {
       "content": "Added third Note",
       "date": "2023-01-04T17:27:37.046Z",
-      "important": true,
+      "important": false,
       "id": 6
     }
   ]
