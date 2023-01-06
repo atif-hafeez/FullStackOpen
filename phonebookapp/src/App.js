@@ -5,9 +5,27 @@ const Filter = () => {
 
 }
 
-const PersonForm = () => {
-
+const PersonForm = ({newName, newNumber, onNameChange, onNumberChange, onFormSubmit}) => {
+  return (
+    <div>
+      <form onSubmit={onFormSubmit}>
+        <div>
+          name: <input value={newName} onChange={onNameChange} />
+        </div>
+        <div>
+          number: <input value={newNumber} onChange={onNumberChange} />
+        </div>
+        <div>
+          <button type="Submit">add</button>
+        </div>
+      </form>
+    </div>
+  )
 }
+
+
+
+  
 
 
 const App = () => {
@@ -71,22 +89,21 @@ const App = () => {
   return (
     <div>
       <div>
+        
         <h2>Phonebook</h2>
         <div>
           filter shown with <input value={searchName} onChange={handleSearchChange} />
         </div>
+        
         <h2>add a new</h2>
-        <form onSubmit={handleAdd}>
-          <div>
-            name: <input value={newName} onChange={handleNameChange} />
-          </div>
-          <div>
-            number: <input value={newNumber} onChange={handleNumberChange} />
-          </div>
-          <div>
-            <button type="Submit">add</button>
-          </div>
-        </form>
+          <PersonForm 
+            newName={newName}
+            newNumber={newNumber}
+            onNameChange={handleNameChange}
+            onNumberChange={handleNumberChange}
+            onFormSubmit={handleAdd}
+          />
+     
         <h2>Numbers</h2>
         {
           personsToShow.map( person => 
