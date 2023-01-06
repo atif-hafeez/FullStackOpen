@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import Persons from './components/Persons'
 
 const Filter = () => {
 
@@ -23,9 +22,17 @@ const PersonForm = ({newName, newNumber, onNameChange, onNumberChange, onFormSub
   )
 }
 
-
-
-  
+const Persons = ({persons}) => {
+  console.log(persons)
+  return (
+    persons.map(person => 
+        <li key={person.name}>
+          {person.name} {person.number}
+        </li>
+    )
+    
+  )
+}
 
 
 const App = () => {
@@ -105,13 +112,17 @@ const App = () => {
           />
      
         <h2>Numbers</h2>
-        {
+        <ul>
+          <Persons persons={personsToShow} />
+        </ul>
+
+        {/* {
           personsToShow.map( person => 
             <Persons
               key={person.name}
               person={person} />
           )
-        }
+        } */}
       </div>
       <div>
         <p>debug: {newName}</p>
