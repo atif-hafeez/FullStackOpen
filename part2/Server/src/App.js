@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import axios from 'axios'
 import Note from './components/Note'
 import noteService from './services/notes'
 
@@ -11,14 +10,15 @@ const App = () => {
   useEffect(() => {
     noteService
       .getAll()
-      .then(response => {
-        setNotes(response.data)
+      .then(initialNotes => {
+        setNotes(initialNotes)
       })  
   } , [])
 
   const toggleImportanceOf = (id) => {
     const note = notes.find(n => n.id === id)
     const changedNote = {...note, important: !note.important}
+    
     noteService
       .update(id, changedNote)
       .then(response => {
@@ -36,8 +36,8 @@ const  addNote = (event) => {
 
     noteService
       .create(noteObject)
-      .then(response => {
-        setNotes(notes.concat(response.data))
+      .then(returnedNote => {
+        setNotes(notes.concat(returnedNote))
         setNewNote('')
       })
   }
