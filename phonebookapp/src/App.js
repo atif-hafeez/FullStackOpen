@@ -1,7 +1,11 @@
 import { useState } from 'react'
 
-const Filter = () => {
-
+const Filter = ({searchName, onSearchChange}) => {
+  return (
+    <div>
+      filter shown with <input value={searchName} onChange={onSearchChange} />
+    </div>
+  )
 }
 
 const PersonForm = ({newName, newNumber, onNameChange, onNumberChange, onFormSubmit}) => {
@@ -23,7 +27,6 @@ const PersonForm = ({newName, newNumber, onNameChange, onNumberChange, onFormSub
 }
 
 const Persons = ({persons}) => {
-  console.log(persons)
   return (
     persons.map(person => 
         <li key={person.name}>
@@ -82,8 +85,7 @@ const App = () => {
 
   //Handle searchbar change
   const handleSearchChange = (event) => {
-    setSearchName(event.target.value)
-    
+    setSearchName(event.target.value) 
   }
 
   //code to filter list
@@ -98,9 +100,14 @@ const App = () => {
       <div>
         
         <h2>Phonebook</h2>
-        <div>
+        <Filter 
+          searchName={searchName}
+          onSearchChange={handleSearchChange}
+        />
+
+        {/* <div>
           filter shown with <input value={searchName} onChange={handleSearchChange} />
-        </div>
+        </div> */}
         
         <h2>add a new</h2>
           <PersonForm 
