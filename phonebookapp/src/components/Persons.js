@@ -1,4 +1,4 @@
-const PhoneBook = ({person}) => {
+const Persons = ({person}) => {
   return (
     <>
       <span>{person.name} {person.number}</span>
@@ -7,4 +7,4 @@ const PhoneBook = ({person}) => {
   )
 }
 
-export default PhoneBook
+export default Persons

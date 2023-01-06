@@ -1,5 +1,14 @@
 import { useState } from 'react'
-import PhoneBook from './components/Phonebook'
+import Persons from './components/Persons'
+
+const Filter = () => {
+
+}
+
+const PersonForm = () => {
+
+}
+
 
 const App = () => {
   //Define Phonebook Object
@@ -10,9 +19,10 @@ const App = () => {
       { name: 'Mary Poppendieck', number: '39-23-6423122'}
   ]) 
 
-  //Define variable to Control form input elements
+  //Define state variables to Control form input elements
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
+  const [searchName, setSearchName] = useState('')
 
   //Add person to the Phonebook
   const handleAdd = (event) => {
@@ -45,11 +55,27 @@ const App = () => {
     setNewNumber(event.target.value)
   }
 
+  //Handle searchbar change
+  const handleSearchChange = (event) => {
+    setSearchName(event.target.value)
+    
+  }
+
+  //code to filter list
+  const personsToShow = searchName === ''
+    ? persons
+    : persons.filter(({name}) => 
+      (name.toLowerCase()).includes(searchName.toLowerCase()))
+
   //Render the App
   return (
     <div>
       <div>
         <h2>Phonebook</h2>
+        <div>
+          filter shown with <input value={searchName} onChange={handleSearchChange} />
+        </div>
+        <h2>add a new</h2>
         <form onSubmit={handleAdd}>
           <div>
             name: <input value={newName} onChange={handleNameChange} />
@@ -63,8 +89,8 @@ const App = () => {
         </form>
         <h2>Numbers</h2>
         {
-          persons.map(person => 
-            <PhoneBook
+          personsToShow.map( person => 
+            <Persons
               key={person.name}
               person={person} />
           )
