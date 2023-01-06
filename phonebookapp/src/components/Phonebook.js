@@ -1,7 +1,7 @@
 const PhoneBook = ({person}) => {
   return (
     <>
-      <span>{person.name}</span>
+      <span>{person.name} {person.number}</span>
       <br />
     </>
   )
