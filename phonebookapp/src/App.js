@@ -13,11 +13,18 @@ const App = () => {
   //Add person to the Phonebook
   const handleAdd = (event) => {
     event.preventDefault()
-    const newPerson = {
-      name: newName
+    
+    if (persons.some(({name}) => name === newName)) {
+      alert(`${newName} is already added to phonebook`)
+      setNewName('')
+      return;
+    } else {
+      const newPerson = {
+        name: newName
+      }
+      setPersons(persons.concat(newPerson))
+      setNewName('')
     }
-    setPersons(persons.concat(newPerson))
-    setNewName('')
   }
 
   //Handle input change
