@@ -1,4 +1,5 @@
 import {useEffect, useState} from 'react'
+import Countries from './services/countries'
 import countriesService from './services/countries' 
 
 const Filter = ({country, onCountryChange}) => {
@@ -10,6 +11,7 @@ const Filter = ({country, onCountryChange}) => {
 const CountryDetail = ({country}) => {
   console.log("Selected Country Should be Switzerland", country)
   
+  //if country is not defined then return from the function
   if(typeof(country) == 'undefined') {
     return;
   }
@@ -26,9 +28,7 @@ const CountryDetail = ({country}) => {
           area {country.area}
         </p>
         <p><strong>languages:</strong></p>
-        <ul>
-          {languages.map(lang => <li key={lang}>{lang}</li>)}
-        </ul>
+        <ul>{languages.map(lang => <li key={lang}>{lang}</li>)}</ul>
         <img 
           src={country.flags.svg} 
           alt={`flag of ${country.name.common}`}
@@ -36,6 +36,19 @@ const CountryDetail = ({country}) => {
         />
       </div>
     </div>
+  )
+}
+
+const CountriesList = ({countriesToShow}) => {
+  return (
+    <>
+      <p>List of All Countries</p>
+      <ul> { 
+        countriesToShow
+          .slice(0, 10)
+          .map(country => <li key={country.name.common}>{country.name.common}</li>)}
+      </ul>
+    </> 
   )
 }
 
@@ -86,14 +99,8 @@ const App = () => {
         countriesToShow.length > 10 
           ? <p>Too many matches, specify another filter</p>
           : countriesToShow.length > 1
-              ? <>
-                  <p>List of All Countries</p>
-                  <ul> { 
-                    countriesToShow
-                      .slice(0, 10)
-                      .map(country => <li key={country.name.common}>{country.name.common}</li>)}
-                  </ul>
-                </> 
+              ? <CountriesList
+                  countriesToShow={countriesToShow} />
               : countriesToShow.length === 1 
                 ? <CountryDetail country={selectedCountry}/>
                 : <div></div>
