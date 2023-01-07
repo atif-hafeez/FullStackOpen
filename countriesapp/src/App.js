@@ -51,13 +51,16 @@ const App = () => {
         country={searchCountry}
         onCountryChange = {handleCountryChange}
       />
-      <ul>
-          { countriesToShow.length > 10
-              ? <p>Too many matches, specify another filter</p>
-              : countriesToShow
-                  .slice(0, 10)
-                  .map(country => <li key={country.name.common}>{country.name.common}</li>)}
-      </ul>
+      {
+        countriesToShow.length > 10 
+          ? <p>Too many matches, specify another filter</p>
+          : <><p>List of All Countries</p><ul>
+            {countriesToShow
+              .slice(0, 10)
+              .map(country => <li key={country.name.common}>{country.name.common}</li>)}
+          </ul></>
+      }
+
     </div>
   );
 }
