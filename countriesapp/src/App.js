@@ -7,12 +7,39 @@ const Filter = ({country, onCountryChange}) => {
   )
 }
 
-/* const Countries = ({countries}) => {
-  console.log("Countries Object", countries)
+const CountryDetail = ({country}) => {
+  console.log("Selected Country Should be Switzerland", country)
+  
+  if(typeof(country) == 'undefined') {
+    return;
+  }
+
+  const languages = Object.values(country.languages)
+  console.log("List of languages are", languages)
+  
   return (
-    countries.map((country, index) => <li key={index}>{country.name}</li>)
+    <div>
+      <h1>{country.name.common}</h1>
+      <div>
+        <p>
+          capital {country.capital}<br />
+          area {country.area}
+        </p>
+        <p><strong>languages:</strong></p>
+        <ul>
+          {languages.map(lang => <li key={lang}>{lang}</li>)}
+        </ul>
+        <img 
+          src={country.flags.svg} 
+          alt={`flag of ${country.name.common}`}
+          width="300"
+        />
+      </div>
+    </div>
   )
-} */
+}
+
+
 
 const App = () => {
   //Define Phonebook Object
@@ -24,7 +51,6 @@ const App = () => {
       .getAll()
       .then(countries => {
         setCountries(countries)
-        console.log("Collected Object", countries[0])
       })
   },[])
 
@@ -44,6 +70,7 @@ const App = () => {
       ).sort((a, b) => a.name.common.localeCompare(b.name.common))
 
   
+  
   return (
     <div>
       <h1>Countries App</h1>
@@ -60,6 +87,14 @@ const App = () => {
               .map(country => <li key={country.name.common}>{country.name.common}</li>)}
           </ul></>
       }
+      {
+        countriesToShow.length === 1
+        ? <CountryDetail country={countries.find(country => 
+            country.name.common.includes(searchCountry))
+          }/>
+        : <div></div>
+      }      
+      
 
     </div>
   );
