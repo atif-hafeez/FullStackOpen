@@ -32,7 +32,7 @@ const Persons = ({persons, onDelete}) => {
   return (
     persons.map(person => 
         <li key={person.name}>
-          {person.name} {person.number} <button onClick={()=>onDelete(person.id)}>delete</button>
+          {person.name} {person.number} <button onClick={()=>onDelete(person)}>delete</button>
         </li>
     )
     
@@ -81,12 +81,15 @@ const App = () => {
     }
   }
 
-  const handleDelete = (id) => {
-    personsService
-      .deleteItem(id)
-      .then(() => {
-        setPersons(persons.filter(person => person.id !== id))
-      })
+  //delete person
+  const handleDelete = (person) => {
+    if (window.confirm(`Delete ${person.name}?`)) {
+      personsService
+        .deleteItem(person.id)
+        .then(() => {
+          setPersons(persons.filter(p => p.id !== person.id))
+        })
+    } 
   }
 
   //Handle name input change
