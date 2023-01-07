@@ -1,6 +1,5 @@
 import {useEffect, useState} from 'react'
-import Countries from './services/countries'
-import countriesService from './services/countries' 
+import countryService from './services/countries' 
 
 const Filter = ({country, onCountryChange}) => {
   return (
@@ -60,7 +59,7 @@ const App = () => {
    
   //Get list of all countries
   useEffect(() => {
-    countriesService
+    countryService
       .getAll()
       .then(countries => {
         setCountries(countries)
