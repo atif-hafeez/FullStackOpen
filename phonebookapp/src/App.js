@@ -1,5 +1,6 @@
 import {  useState, useEffect } from 'react'
 import axios from 'axios'
+import personsService from './services/persons'
 
 const Filter = ({searchName, onSearchChange}) => {
   return (
@@ -43,7 +44,18 @@ const App = () => {
   //Define Phonebook Object
   const [persons, setPersons] = useState([]) 
 
+  //Get list of persons from database
   useEffect(() => {
+    personsService
+      .getAll()
+      .then(initialPersons => {
+        setPersons(initialPersons)
+      })
+  }, [])
+
+
+
+  /* useEffect(() => {
     console.log('Effect')
     axios
       .get('http://localhost:3001/persons')
@@ -51,7 +63,7 @@ const App = () => {
         console.log('Promise Fulfilled')
         setPersons(response.data)
       })
-  }, [])
+  }, []) */
 
   //Define state variables to Control form input elements
   const [newName, setNewName] = useState('')
