@@ -17,7 +17,7 @@ const CountryDetail = ({country}) => {
 
   const languages = Object.values(country.languages)
   console.log("List of languages are", languages)
-  
+
   return (
     <div>
       <h1>{country.name.common}</h1>
@@ -37,15 +37,20 @@ const CountryDetail = ({country}) => {
     </div>
   )
 }
-
-const CountriesList = ({countriesToShow}) => {
+//Displays List of Countries
+const CountriesList = ({countriesToShow, onShowDetails}) => {
   return (
     <>
       <p>List of All Countries</p>
       <ul> { 
         countriesToShow
           .slice(0, 10)
-          .map(country => <li key={country.name.common}>{country.name.common}</li>)}
+          .map(country => 
+          <div key={country.name.common}>
+            <li >{country.name.common} <button onClick={event => onShowDetails(country)}>Show</button>
+            </li>
+          </div>
+          )}
       </ul>
     </> 
   )
@@ -68,10 +73,19 @@ const App = () => {
 
   //define state variables
   const [searchCountry, setSearchCountry] = useState('')
+  const [showDetails, setShowDetails] = useState(false)
+  const [showCountry,setShowCountry] = useState('')
      
   //handle search filter input change
   const handleCountryChange = (event) => {
     setSearchCountry(event.target.value)
+    setShowDetails(false)
+    
+  }
+
+  const handleShowDetails = (country) => {
+    setShowCountry(country)
+    setShowDetails(true)
   }
 
   //code to filter, sort and return only top 10 countries
@@ -82,8 +96,9 @@ const App = () => {
       ).sort((a, b) => a.name.common.localeCompare(b.name.common))
 
   //code to find the country
-  const selectedCountry = countries.find(country => 
-    (country.name.common.toLowerCase()).includes(searchCountry.toLowerCase()))
+  const selectedCountry = showDetails
+    ? showCountry
+    : countries.find(country => (country.name.common.toLowerCase()).includes(searchCountry.toLowerCase()))
 
   return (
     <div>
@@ -94,15 +109,16 @@ const App = () => {
       />
 
       {/* Display list of countries */}
-      {
-        countriesToShow.length > 10 
-          ? <p>Too many matches, specify another filter</p>
-          : countriesToShow.length > 1
-              ? <CountriesList
-                  countriesToShow={countriesToShow} />
-              : countriesToShow.length === 1 
-                ? <CountryDetail country={selectedCountry}/>
-                : <div></div>
+      { 
+          countriesToShow.length > 10 
+            ? <p>Too many matches, specify another filter</p>
+            : countriesToShow.length > 1 && !showDetails
+                ? <CountriesList
+                    countriesToShow={countriesToShow}
+                    onShowDetails={handleShowDetails} />
+                : countriesToShow.length === 1 || showDetails
+                  ? <CountryDetail country={selectedCountry}/>
+                  : <div></div>
       }
     </div>
   );
