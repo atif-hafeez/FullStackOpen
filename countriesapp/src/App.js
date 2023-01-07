@@ -3,7 +3,13 @@ import countriesService from './services/countries'
 
 const Filter = ({country, onCountryChange}) => {
   return (
-    <p>find countries <input value={country} onChange={onCountryChange} /></p>
+    <p>
+      find countries <input 
+        value={country} 
+        onChange={onCountryChange} 
+        placeholder="Select a country" 
+      />
+    </p>
   )
 }
 
@@ -79,25 +85,31 @@ const App = () => {
         onCountryChange = {handleCountryChange}
       />
 
-      {/* Display list of countries */}
+         
       {
+        /* Display List only if number of matching countries
+        is less than 10. Display details of the country if only
+        one country remains */
         countriesToShow.length > 10 
           ? <p>Too many matches, specify another filter</p>
-          : <><p>List of All Countries</p><ul>
-            {countriesToShow
-              .slice(0, 10)
-              .map(country => <li key={country.name.common}>{country.name.common}</li>)}
-          </ul></>
+          : countriesToShow.length > 1
+            ? <>
+                <p>List of All Countries</p><ul>
+                  {countriesToShow
+                  .slice(0, 10)
+                  .map(country => 
+                    <li 
+                      key={country.name.common}>{country.name.common}
+                    </li>)}
+                </ul>
+              </>
+              : countriesToShow.length === 1 
+                ? <CountryDetail country={countries.find(country => 
+                    country.name.common.includes(searchCountry))
+                  }/>   
+                : <div></div> 
       }
-
-      {/* Display Country Details */}
-      {
-        countriesToShow.length === 1
-        ? <CountryDetail country={countries.find(country => 
-            country.name.common.includes(searchCountry))
-          }/>
-        : <div></div>
-      }      
+      
       
 
     </div>
