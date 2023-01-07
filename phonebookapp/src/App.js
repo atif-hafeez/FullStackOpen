@@ -1,4 +1,5 @@
-import {  useState } from 'react'
+import {  useState, useEffect } from 'react'
+import axios from 'axios'
 
 const Filter = ({searchName, onSearchChange}) => {
   return (
@@ -38,9 +39,19 @@ const Persons = ({persons}) => {
 }
 
 
-const App = (props) => {
+const App = () => {
   //Define Phonebook Object
-  const [persons, setPersons] = useState(props.persons) 
+  const [persons, setPersons] = useState([]) 
+
+  useEffect(() => {
+    console.log('Effect')
+    axios
+      .get('http://localhost:3001/persons')
+      .then(response => {
+        console.log('Promise Fulfilled')
+        setPersons(response.data)
+      })
+  }, [])
 
   //Define state variables to Control form input elements
   const [newName, setNewName] = useState('')
