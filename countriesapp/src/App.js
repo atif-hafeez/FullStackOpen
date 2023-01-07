@@ -78,6 +78,8 @@ const App = () => {
         country={searchCountry}
         onCountryChange = {handleCountryChange}
       />
+
+      {/* Display list of countries */}
       {
         countriesToShow.length > 10 
           ? <p>Too many matches, specify another filter</p>
@@ -87,6 +89,8 @@ const App = () => {
               .map(country => <li key={country.name.common}>{country.name.common}</li>)}
           </ul></>
       }
+
+      {/* Display Country Details */}
       {
         countriesToShow.length === 1
         ? <CountryDetail country={countries.find(country => 
