@@ -36,12 +36,13 @@ const App = () => {
     setSearchCountry(event.target.value)
   }
 
-  //code to filter list
+  //code to filter, sort and return only top 10 countries
   const countriesToShow = searchCountry === ''
     ? []
     : countries.filter(({name}) =>  
         (name.common.toLowerCase()).includes(searchCountry.toLowerCase())     
-      )
+      ).sort((a, b) => a.name.common.localeCompare(b.name.common))
+
   
   return (
     <div>
@@ -51,7 +52,11 @@ const App = () => {
         onCountryChange = {handleCountryChange}
       />
       <ul>
-          {countriesToShow.map(country => <li>{country.name.common}</li>)}
+          { countriesToShow.length > 10
+              ? <p>Too many matches, specify another filter</p>
+              : countriesToShow
+                  .slice(0, 10)
+                  .map(country => <li key={country.name.common}>{country.name.common}</li>)}
       </ul>
     </div>
   );
