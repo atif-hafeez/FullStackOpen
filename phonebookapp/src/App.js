@@ -28,11 +28,11 @@ const PersonForm = ({newName, newNumber, onNameChange, onNumberChange, onFormSub
   )
 }
 
-const Persons = ({persons}) => {
+const Persons = ({persons, onDelete}) => {
   return (
     persons.map(person => 
         <li key={person.name}>
-          {person.name} {person.number}
+          {person.name} {person.number} <button onClick={()=>onDelete(person.id)}>delete</button>
         </li>
     )
     
@@ -52,18 +52,6 @@ const App = () => {
         setPersons(initialPersons)
       })
   }, [])
-
-
-
-  /* useEffect(() => {
-    console.log('Effect')
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        console.log('Promise Fulfilled')
-        setPersons(response.data)
-      })
-  }, []) */
 
   //Define state variables to Control form input elements
   const [newName, setNewName] = useState('')
@@ -91,6 +79,14 @@ const App = () => {
           console.log("Added new person", response.data)
         })
     }
+  }
+
+  const handleDelete = (id) => {
+    personsService
+      .deleteItem(id)
+      .then(() => {
+        setPersons(persons.filter(person => person.id !== id))
+      })
   }
 
   //Handle name input change
@@ -142,16 +138,11 @@ const App = () => {
      
         <h2>Numbers</h2>
         <ul>
-          <Persons persons={personsToShow} />
+          <Persons 
+            persons={personsToShow} 
+            onDelete={handleDelete}
+          />
         </ul>
-
-        {/* {
-          personsToShow.map( person => 
-            <Persons
-              key={person.name}
-              person={person} />
-          )
-        } */}
       </div>
       <div>
         <p>debug: {newName}</p>
