@@ -1,5 +1,4 @@
 import {  useState, useEffect } from 'react'
-import axios from 'axios'
 import personsService from './services/persons'
 
 const Filter = ({searchName, onSearchChange}) => {
@@ -35,10 +34,8 @@ const Persons = ({persons, onDelete}) => {
           {person.name} {person.number} <button onClick={()=>onDelete(person)}>delete</button>
         </li>
     )
-    
   )
 }
-
 
 const App = () => {
   //Define Phonebook Object
@@ -63,20 +60,38 @@ const App = () => {
     event.preventDefault()
     
     if (persons.some(({name}) => name === newName)) {
-      alert(`${newName} is already added to phonebook`)
-      setNewName('')
-      return;
-    } else {
-      const newPerson = {
-        name: newName,
-        number: newNumber,
+      if (window.confirm(
+        `${newName} is already added to phonebook, replace the old number with a new one`)
+      ) {
+          const person = persons.find(person => person.name === newName)
+          const changedPerson = {...person, number: newNumber}
+          personsService
+            .update(person.id, changedPerson)
+            .then(returnedPerson => {
+              setPersons(persons.map(p => p.id !== person.id ? p : returnedPerson))
+            })
+            .catch(error => {
+              alert(`${person.name}'s details were already deleted from the server`)
+              setPersons(persons.filter(p => p.id !== person.id))
+            }) 
+      } else {
+        setNewName('')
+        setNewNumber('')
+        return;
       }
-      
-      axios
-        .post('http://localhost:3001/persons', newPerson)
-        .then(response => {
-          setPersons(persons.concat(response.data))
-          console.log("Added new person", response.data)
+    } else {
+      //Add person to the database if the name is not already in the list
+        const newPerson = {
+          name: newName,
+          number: newNumber,
+        }
+                
+        personsService
+        .create(newPerson)
+        .then(returnedPerson => {
+          setPersons(persons.concat(returnedPerson))
+          setNewName('')
+          setNewNumber('')
         })
     }
   }
