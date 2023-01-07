@@ -56,7 +56,7 @@ const App = () => {
 
   //define state variables
   const [searchCountry, setSearchCountry] = useState('')
-   
+     
   //handle search filter input change
   const handleCountryChange = (event) => {
     setSearchCountry(event.target.value)
@@ -69,8 +69,10 @@ const App = () => {
         (name.common.toLowerCase()).includes(searchCountry.toLowerCase())     
       ).sort((a, b) => a.name.common.localeCompare(b.name.common))
 
-  
-  
+  //code to find the country
+  const selectedCountry = countries.find(country => 
+    (country.name.common.toLowerCase()).includes(searchCountry.toLowerCase()))
+
   return (
     <div>
       <h1>Countries App</h1>
@@ -83,23 +85,19 @@ const App = () => {
       {
         countriesToShow.length > 10 
           ? <p>Too many matches, specify another filter</p>
-          : <><p>List of All Countries</p><ul>
-            {countriesToShow
-              .slice(0, 10)
-              .map(country => <li key={country.name.common}>{country.name.common}</li>)}
-          </ul></>
+          : countriesToShow.length > 1
+              ? <>
+                  <p>List of All Countries</p>
+                  <ul> { 
+                    countriesToShow
+                      .slice(0, 10)
+                      .map(country => <li key={country.name.common}>{country.name.common}</li>)}
+                  </ul>
+                </> 
+              : countriesToShow.length === 1 
+                ? <CountryDetail country={selectedCountry}/>
+                : <div></div>
       }
-
-      {/* Display Country Details */}
-      {
-        countriesToShow.length === 1
-        ? <CountryDetail country={countries.find(country => 
-            country.name.common.includes(searchCountry))
-          }/>
-        : <div></div>
-      }      
-      
-
     </div>
   );
 }
